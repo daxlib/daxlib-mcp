@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <!-- Required by the CsWin32-generated interop (see NativeMethods.txt). -->
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ModelContextProtocol" Version="2.2.0" />
+    <PackageReference Include="DaxLib.Client" Version="0.6.3-beta" />
+    <PackageReference Include="DaxLib.Packaging" Version="0.7.1-beta" />
+    <!-- TOM: TMDL parsing (MetadataSerializationContext) and writing functions into a connected
+         model. Also the only dependency SdkModeling/ may take besides DaxLib.Packaging. -->
+    <PackageReference Include="Microsoft.AnalysisServices" Version="19.114.12" />
+    <!-- Win32 interop generated from the official metadata; the APIs are listed in
+         NativeMethods.txt. Source-only: nothing of it ships in the executable. -->
+    <PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.321" PrivateAssets="all" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Every type in this assembly is internal; the console entry composes the server. -->
+    <InternalsVisibleTo Include="daxlib-mcp" />
+    <InternalsVisibleTo Include="DaxLib.Mcp.Core.Tests" />
+    <!-- Castle DynamicProxy, behind NSubstitute, needs this to substitute the internal interfaces. -->
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+  </ItemGroup>
+
+</Project>

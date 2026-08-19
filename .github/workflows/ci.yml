@@ -1,0 +1,28 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for Nerdbank.GitVersioning to compute the version height.
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Build
+        run: dotnet build DaxLib.Mcp.slnx --configuration Release -warnaserror
+
+      - name: Test
+        run: dotnet test --solution DaxLib.Mcp.slnx --configuration Release --no-build

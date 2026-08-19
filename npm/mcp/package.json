@@ -1,0 +1,34 @@
+{
+  "name": "@daxlib/mcp",
+  "version": "0.0.0-placeholder",
+  "description": "DAX Lib MCP Server: Node.js client package for installing and running the DAX Lib MCP server.",
+  "license": "MIT",
+  "main": "index.js",
+  "bin": {
+    "daxlib-mcp": "index.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "optionalDependencies": {
+    "@daxlib/mcp-win32-x64": "0.0.0-placeholder"
+  },
+  "keywords": [
+    "daxlib",
+    "dax",
+    "udf",
+    "powerbi",
+    "modeling",
+    "semantic-model",
+    "tabular",
+    "analysis-services",
+    "mcp",
+    "model-context-protocol"
+  ],
+  "homepage": "https://daxlib.org",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daxlib/daxlib-mcp.git"
+  },
+  "mcpName": "org.daxlib/mcp"
+}

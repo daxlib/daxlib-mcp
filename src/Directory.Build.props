@@ -1,0 +1,32 @@
+<Project>
+
+  <PropertyGroup>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AnalysisMode>all</AnalysisMode>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <UseArtifactsOutput>true</UseArtifactsOutput>
+    <!-- Nothing here ships as a NuGet package: the server is distributed through NPM as a
+         self-contained executable, and every other project is internal to that build. -->
+    <IsPackable>false</IsPackable>
+    <!-- CA2007 (ConfigureAwait) — this repo ships applications, not libraries: there is no
+         SynchronizationContext to capture in a generic host or test process, so the call sites
+         would be pure noise. Revisit if any project here ever ships as a reusable library. -->
+    <NoWarn>$(NoWarn);CA2007</NoWarn>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- The release publishes win-x64; declaring it here keeps the lock files consistent for
+         both the RID-less build and the RID-specific publish under RestoreLockedMode. -->
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <RestoreLockedMode>true</RestoreLockedMode>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Nerdbank.GitVersioning" Version="3.7.115" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

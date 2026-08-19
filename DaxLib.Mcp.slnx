@@ -1,1 +1,7 @@
-<Solution />
+<Solution>
+  <Folder Name="/tests/">
+    <Project Path="tests/DaxLib.Mcp.Core.Tests/DaxLib.Mcp.Core.Tests.csproj" />
+  </Folder>
+  <Project Path="src/DaxLib.Mcp.Core/DaxLib.Mcp.Core.csproj" />
+  <Project Path="src/DaxLib.Mcp/DaxLib.Mcp.csproj" />
+</Solution>

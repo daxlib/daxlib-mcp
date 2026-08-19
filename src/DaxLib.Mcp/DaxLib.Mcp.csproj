@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <!-- The executable name is the product name every client registration runs: the npm platform
+         package's bin entry points at daxlib-mcp.exe. The C# namespace stays DaxLib.Mcp. -->
+    <AssemblyName>daxlib-mcp</AssemblyName>
+    <RootNamespace>DaxLib.Mcp</RootNamespace>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <!-- Declared here rather than on the publish command line so every restore computes the
+         same implicit references (ILLink.Tasks): under RestoreLockedMode a property passed
+         only at publish time would make the lock file inconsistent between build and publish. -->
+    <PublishSingleFile>true</PublishSingleFile>
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>true</IncludeNativeLibrariesForSelfExtract>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="10.0.11" />
+    <!-- Makes ILogger diagnostics available to dotnet-trace without a remote telemetry exporter. -->
+    <PackageReference Include="Microsoft.Extensions.Logging.EventSource" Version="10.0.11" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DaxLib.Mcp.Core\DaxLib.Mcp.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="DaxLib.Mcp.Tests" />
+  </ItemGroup>
+
+</Project>

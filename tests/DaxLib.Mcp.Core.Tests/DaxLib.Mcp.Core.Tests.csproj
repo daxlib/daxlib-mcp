@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <!-- The harness builds the real container, which the abstractions alone cannot do; it reached
+         the test assembly transitively through DaxLib.Mcp's Hosting reference until the tests split
+         in two, and this project deliberately does not reference the console entry. -->
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.11" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.11" />
+  </ItemGroup>
+
+  <!-- Covers src/DaxLib.Mcp.Core only: it must never reach the console entry, so the MCP surface
+       tests compose the server from the Core service-collection extensions, exactly as Program does. -->
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\DaxLib.Mcp.Core\DaxLib.Mcp.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Fixtures\**\*.tmdl" />
+  </ItemGroup>
+
+</Project>

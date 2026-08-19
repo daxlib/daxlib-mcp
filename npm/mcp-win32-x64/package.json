@@ -1,0 +1,24 @@
+{
+  "name": "@daxlib/mcp-win32-x64",
+  "version": "0.0.0-placeholder",
+  "description": "Windows x64 binary for @daxlib/mcp, the DAX Lib MCP server. Install @daxlib/mcp instead of this package.",
+  "license": "MIT",
+  "main": "index.js",
+  "bin": {
+    "daxlib-mcp-win32-x64": "dist/daxlib-mcp.exe"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "os": [
+    "win32"
+  ],
+  "cpu": [
+    "x64"
+  ],
+  "homepage": "https://daxlib.org",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/daxlib/daxlib-mcp.git"
+  }
+}

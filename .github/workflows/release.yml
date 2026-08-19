@@ -1,0 +1,139 @@
+name: Release
+
+# Manual release workflow for the DAX Lib MCP server.
+# Builds and tests the server, signs and packages the Windows executable,
+# publishes both npm packages, and creates a draft GitHub release.
+# The version is determined by Nerdbank.GitVersioning.
+
+on:
+  workflow_dispatch:
+    inputs:
+      npm-dist-tag:
+        description: "npm dist-tag to publish to (`next` for prerelease, `latest` for stable)"
+        required: true
+        default: "next"
+        type: choice
+        options:
+          - next
+          - latest
+
+jobs:
+  release:
+    runs-on: windows-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Validate branch
+        if: github.ref != 'refs/heads/main'
+        shell: pwsh
+        run: |
+          Write-Error "Releases can only be created from the main branch; got '${{ github.ref }}'."
+          exit 1
+
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required for Nerdbank.GitVersioning to compute the version height.
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+
+      - name: Build and test
+        run: |
+          dotnet build DaxLib.Mcp.slnx --configuration Release -warnaserror
+          dotnet test --solution DaxLib.Mcp.slnx --configuration Release --no-build
+
+      - name: Resolve version
+        id: version
+        shell: pwsh
+        run: |
+          $version = nbgv get-version --variable NpmPackageVersion
+          "version=$version" >> $env:GITHUB_OUTPUT
+          Write-Host "Releasing version $version"
+
+      - name: Validate dist-tag
+        if: inputs.npm-dist-tag == 'latest'
+        shell: pwsh
+        run: |
+          $prerelease = nbgv get-version --variable PrereleaseVersion
+          $publicRelease = nbgv get-version --variable PublicRelease
+          if ($prerelease -or $publicRelease -ne "True") {
+            Write-Error "The 'latest' dist-tag is reserved for stable releases built from main. Use 'next' for prerelease versions."
+            exit 1
+          }
+
+      - name: Publish win-x64 executable
+        run: |
+          dotnet publish src/DaxLib.Mcp --configuration Release --runtime win-x64 --self-contained
+
+      - name: Install AzureSignTool
+        shell: pwsh
+        run: dotnet tool install --global AzureSignTool
+
+      # Signs the published executable before it is staged, so both distribution
+      # channels (the npm platform package and the release zip) carry the same
+      # signed binary.
+      - name: Sign executable
+        shell: pwsh
+        run: |
+          azuresigntool sign `
+            -kvu "${{ secrets.CODESIGNING_VAULT_URL }}" `
+            -kvt "${{ secrets.CODESIGNING_TENANT_ID }}" `
+            -kvi "${{ secrets.CODESIGNING_CLIENT_ID }}" `
+            -kvs "${{ secrets.CODESIGNING_CLIENT_SECRET }}" `
+            -kvc "${{ secrets.CODESIGNING_CERTIFICATE_NAME }}" `
+            -tr http://timestamp.digicert.com `
+            -td sha256 -fd sha256 -v `
+            "src/artifacts/publish/DaxLib.Mcp/release_win-x64/daxlib-mcp.exe"
+
+      - name: Stage npm packages
+        shell: pwsh
+        run: |
+          $version = "${{ steps.version.outputs.version }}"
+          New-Item -ItemType Directory -Force npm/mcp-win32-x64/dist | Out-Null
+          Copy-Item src/artifacts/publish/DaxLib.Mcp/release_win-x64/daxlib-mcp.exe npm/mcp-win32-x64/dist/
+          npm version $version --no-git-tag-version --prefix npm/mcp-win32-x64
+          npm version $version --no-git-tag-version --prefix npm/mcp
+          npm pkg set "optionalDependencies.@daxlib/mcp-win32-x64=$version" --prefix npm/mcp
+
+      - name: Upload release artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: daxlib-mcp-${{ steps.version.outputs.version }}
+          path: |
+            npm/mcp/
+            npm/mcp-win32-x64/
+
+      # The platform package publishes first so the wrapper never points at a missing dependency.
+      - name: Publish npm packages
+        shell: pwsh
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          $tag = "${{ inputs.npm-dist-tag }}"
+          npm publish ./npm/mcp-win32-x64 --access public --tag $tag
+          npm publish ./npm/mcp --access public --tag $tag
+
+      # Releases are always created as drafts and published manually.
+      # The prerelease flag is determined by the version, not the npm dist-tag:
+      # a stable version staged under 'next' is still considered a stable release.
+      - name: Create GitHub release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $version = "${{ steps.version.outputs.version }}"
+          Compress-Archive -Path npm/mcp-win32-x64/dist/daxlib-mcp.exe -DestinationPath "daxlib-mcp-$version-win-x64.zip"
+          $flags = @("--draft", "--generate-notes")
+          if ($version.Contains("-")) { $flags += "--prerelease" }
+          gh release create "v$version" "daxlib-mcp-$version-win-x64.zip" --title "DAX Lib MCP $version" @flags

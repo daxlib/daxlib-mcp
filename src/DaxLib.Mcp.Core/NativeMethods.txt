@@ -1,0 +1,28 @@
+// The Win32 surface this assembly depends on. CsWin32 generates a signature for every entry at
+// compile time; see https://microsoft.github.io/CsWin32/ for the syntax.
+//
+// Grouped by the metadata namespace the entry belongs to, sorted within each group. Deliberately
+// not grouped by which of our types calls it: this is an inventory of native dependencies, and it
+// stays accurate when the calling code moves.
+
+// Windows.Win32.Foundation
+WIN32_ERROR
+
+// Windows.Win32.NetworkManagement.IpHelper - the local TCP connection table
+GetExtendedTcpTable
+MIB_TCP_STATE
+MIB_TCPROW_OWNER_PID
+MIB_TCPTABLE_OWNER_PID
+TCP_TABLE_CLASS
+
+// Windows.Win32.Networking.WinSock
+ADDRESS_FAMILY
+
+// Windows.Win32.System.Threading - opening a process handle
+OpenProcess
+PROCESS_ACCESS_RIGHTS
+PROCESS_BASIC_INFORMATION
+
+// Windows.Wdk.System.Threading - basic process information, including the parent process id
+NtQueryInformationProcess
+PROCESSINFOCLASS

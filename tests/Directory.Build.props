@@ -1,0 +1,40 @@
+<Project>
+
+  <!-- MSBuild imports only the nearest Directory.Build.props, so src/Directory.Build.props does not
+       reach the test projects: the language and analysis settings they build under are restated
+       here. Keep the two files in step — a rule the source projects follow and the tests do not is
+       a rule the tests can silently break. -->
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <AnalysisMode>all</AnalysisMode>
+    <AnalysisLevel>latest</AnalysisLevel>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <IsPackable>false</IsPackable>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    <!-- xunit.v3 runs on Microsoft.Testing.Platform, which needs an executable host; the matching
+         "test.runner" opt-in for dotnet test lives in global.json. -->
+    <OutputType>Exe</OutputType>
+    <!-- CA2007 (ConfigureAwait) — there is no SynchronizationContext to capture in a test process,
+         so the call sites would be pure noise.
+         CA1707 — xunit convention names test methods Method_Scenario_Expectation; the rule guards
+         cross-language consumers of public identifiers, which a test assembly has none of.
+         CA1062 — nullable reference types already enforce non-null at every call site inside the
+         assembly, and a test assembly has no external callers to defend against. -->
+    <NoWarn>$(NoWarn);CA2007;CA1707;CA1062</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <RestoreLockedMode>true</RestoreLockedMode>
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+
+  <!-- Every test project runs on the same harness: xunit.v3 for the framework, NSubstitute for the
+       internal interfaces, which each source assembly opens up with InternalsVisibleTo. -->
+  <ItemGroup>
+    <PackageReference Include="xunit.v3" Version="4.0.0" />
+    <PackageReference Include="NSubstitute" Version="6.2.0" />
+  </ItemGroup>
+
+</Project>
