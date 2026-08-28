@@ -139,4 +139,4 @@ jobs:
           Compress-Archive -Path npm/mcp-win32-x64/dist/daxlib-mcp.exe -DestinationPath "daxlib-mcp-$version-win-x64.zip"
           $flags = @("--draft", "--generate-notes")
           if ($version.Contains("-")) { $flags += "--prerelease" }
-          gh release create "v$version" "daxlib-mcp-$version-win-x64.zip" --title "DAX Lib MCP $version" @flags
+          gh release create "v$version" "daxlib-mcp-$version-win-x64.zip" --title "DAX Lib MCP $version" --target "${{ github.sha }}" @flags
