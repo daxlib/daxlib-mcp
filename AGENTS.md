@@ -33,4 +33,6 @@ dotnet run --project tests/DaxLib.Mcp.Core.Tests
 ## Release process
 
 Releases are launched manually with the `release.yml` workflow (`workflow_dispatch`), only from
-`main`, never on tag push.
+`main`, never on tag push. [docs/release-process.md](docs/release-process.md) describes the
+versioning rules, the preparation steps, and the changelog conventions. Follow it whenever you
+prepare a release or write a changelog entry.
