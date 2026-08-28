@@ -29,11 +29,6 @@ internal static class InstallMessageRenderer
            $"Installed package {packageId} version {packageVersion} into database '{installed.DatabaseName}' on dataSource {dataSource}: {installed.FunctionCount} functions added or replaced.",
            new PackageInstallData(installed.DatabaseName, installed.FunctionCount));
 
-    public static ToolOutcome Cancelled(string packageId, string packageVersion) =>
-        ToolOutcome.Failed(
-            $"Install cancelled: the user did not confirm the installation of package {packageId} version {packageVersion}. " +
-            "Do not retry; ask the user how to proceed.");
-
     public static ToolOutcome UnknownTarget() =>
         ToolOutcome.Failed(
             "Install failed: the specified `dataSource` does not match any local Power BI Desktop instance currently running on this machine.");

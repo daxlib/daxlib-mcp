@@ -50,7 +50,6 @@ internal sealed partial class InstallPackageTool(
         string dataSource,
         [Description("Exact package version, e.g. '2.0.0'. If omitted, the latest published version is used, prerelease included.")]
         string? version = null,
-        McpServer? server = null,
         CancellationToken cancellationToken = default)
     {
         return _toolCallInvocation.RunAsync(ToolNames.InstallPackage, async () =>
@@ -71,12 +70,6 @@ internal sealed partial class InstallPackageTool(
             var resolvedPackage = resolution.Package;
             var packageId = resolvedPackage.Id.ToNormalizedString();
             var packageVersion = resolvedPackage.Version.ToNormalizedString();
-
-            var confirmation = await InstallConfirmation.RequestAsync(
-                server, packageId, packageVersion, instance, cancellationToken);
-
-            if (confirmation is InstallConfirmation.Outcome.Declined)
-                return InstallMessageRenderer.Cancelled(packageId, packageVersion);
 
             using var package = await _packageProvider.GetPackageAsync(
                 resolvedPackage.Id,
