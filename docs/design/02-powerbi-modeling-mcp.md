@@ -98,3 +98,6 @@ appear as separate files in the NPM package tree shown above.
 - **Runtime package installation.** The reference's NPM launcher can install the platform package
   at runtime. daxlib-mcp ships the binary inside the platform package instead, so an install is
   complete when `npm install` finishes, with no `postinstall` script and no download on first run.
+- **Write confirmation.** The reference implements confirmation through MCP elicitation, opt-in
+  behind `--require-confirmation` and therefore inactive by default. daxlib-mcp does not use
+  elicitation at all; see [../decisions/mcp-elicitation.md](../decisions/mcp-elicitation.md).

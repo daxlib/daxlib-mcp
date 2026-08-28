@@ -34,11 +34,9 @@ inside the implementation; the wire result is concise natural language.
    Power BI Desktop.
 2. Resolve id + optional version to an exact package (`PackageResolver`); an unknown id can return
    search suggestions instead.
-3. Request user confirmation through MCP elicitation (`InstallConfirmation`); a decline cancels
-   the installation.
-4. Download the package (`PackageProvider`).
-5. Parse its TMDL documents into a detached TOM model (`PackageTmdlSerializer`).
-6. Connect to the instance (`PackageInstaller`), verify exactly one loaded database at
+3. Download the package (`PackageProvider`).
+4. Parse its TMDL documents into a detached TOM model (`PackageTmdlSerializer`).
+5. Connect to the instance (`PackageInstaller`), verify exactly one loaded database at
    compatibility level 1702 or later, clone each function into the target model replacing
    same-name functions, and save with one `Model.SaveChanges()` call.
 
@@ -72,7 +70,9 @@ A change must preserve these properties:
   downloads.
 
 The write tool is marked destructive and idempotent in its MCP metadata; the catalog tools are
-read-only.
+read-only. The server does not confirm the write itself: approval belongs to the client's
+permission flow, for the reasons recorded in
+[../decisions/mcp-elicitation.md](../decisions/mcp-elicitation.md).
 
 ## Platform and distribution
 
