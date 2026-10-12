@@ -30,6 +30,14 @@ project can also be run directly with:
 dotnet run --project tests/DaxLib.Mcp.Core.Tests
 ```
 
+## .NET SDK and lock files
+
+`global.json` pins the SDK to an exact version (`"rollForward": "disable"`), and CI restores in
+locked mode. The SDK adds an implicit `Microsoft.NET.ILLink.Tasks` reference whose version follows
+the runtime bundled with the SDK, so every SDK update changes `packages.lock.json`. Update the SDK
+on purpose: change `global.json`, run `dotnet restore DaxLib.Mcp.slnx --force-evaluate` with that
+SDK, and commit both together.
+
 ## Release process
 
 Releases are launched manually with the `release.yml` workflow (`workflow_dispatch`), only from
