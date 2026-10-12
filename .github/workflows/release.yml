@@ -110,7 +110,7 @@ jobs:
           npm pkg set "optionalDependencies.@daxlib/mcp-win32-x64=$version" --prefix npm/mcp
 
       - name: Upload release artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: daxlib-mcp-${{ steps.version.outputs.version }}
           path: |
