@@ -1,7 +1,8 @@
 # Release process
 
-A release has two phases. Preparation happens locally and ends with a commit on `main`. Publication
-happens in the `release.yml` workflow, launched manually from the GitHub Actions UI.
+A release has two phases. Preparation happens on a release branch and ends with a pull request
+merged into `main`. Publication happens in the `release.yml` workflow, launched manually from the
+GitHub Actions UI.
 
 ## Versioning
 
@@ -25,10 +26,14 @@ only inside the prerelease tag: `X.Y.{height}` makes every `nbgv` command fail.
 Run `nbgv get-version -v NpmPackageVersion` to read the version of the working tree, or
 `nbgv get-version <commit> -v NpmPackageVersion` for a specific commit.
 
+Only `main` produces public versions (`publicReleaseRefSpec` in `version.json`). While any other
+branch is checked out, `nbgv` appends the commit hash, as in `0.1.0-gf84aff39b7` or
+`0.1.0-beta.1.g0959f23f22`; the version proper is everything before that suffix.
+
 ## Preparing a release
 
-1. Confirm the branch is `main`, the working tree is clean, and the branch is not behind
-   `origin/main`.
+1. Confirm the working tree is clean, then create the release branch from an up-to-date
+   `origin/main`, for example `alberto/release-<version>`.
 2. Determine the last released version from the top entry of `CHANGELOG.md`, or from the highest
    `v*` tag when the file does not exist yet.
 3. Resolve the commit that version was built from. Run `nbgv get-version <tag> -v NpmPackageVersion`
@@ -39,9 +44,17 @@ Run `nbgv get-version -v NpmPackageVersion` to read the version of the working t
    Disregard commits that only touch tests, CI, agent-facing documentation, or internal refactors.
 5. Decide the semver step and the channel, then edit `version.json` as described above.
 6. Add the entry to `CHANGELOG.md` at the repository root, following the conventions below.
-7. Commit `version.json` and `CHANGELOG.md` together, as `chore(release): prepare <version>`.
-8. Verify that `nbgv get-version -v NpmPackageVersion` matches the version in the new changelog
-   heading. Correct the files and amend the commit if it does not.
+7. Commit `version.json` and `CHANGELOG.md` together, as `chore(release): prepare <version>`. This
+   must be the only commit on the release branch.
+8. Verify that `nbgv get-version -v NpmPackageVersion`, without the commit hash suffix, matches the
+   version in the new changelog heading. Correct the files and amend the commit if it does not.
+9. Push the branch and open a pull request into `main`.
+10. Merge the pull request with a squash merge, so `main` receives a single commit that edits
+    `version.json`. A merge commit would add one to the height and turn `X.Y.Z-beta.1` into
+    `X.Y.Z-beta.2`.
+11. Update the local `main` and verify that `nbgv get-version -v NpmPackageVersion` on it matches
+    the changelog heading exactly. On a mismatch, fix it with another pull request before
+    publishing.
 
 ## Changelog conventions
 
@@ -71,7 +84,8 @@ Stable releases drop the trailing ` - Pre-release`.
 
 ## Publishing
 
-Push `main`, then launch the `release.yml` workflow from the Actions UI. Choose the `next` dist-tag
+Once the release pull request is merged, launch the `release.yml` workflow from the Actions UI,
+before any other pull request is merged into `main`. Choose the `next` dist-tag
 for a prerelease and `latest` for a stable release; the workflow rejects `latest` for a version that
 carries a prerelease tag.
 
