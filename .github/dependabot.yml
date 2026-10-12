@@ -1,0 +1,36 @@
+version: 2
+
+updates:
+  # global.json pins the SDK exactly, so security patches to the runtime bundled in the executable
+  # arrive only through this update. Each update also changes the implicit ILLink.Tasks reference:
+  # run `dotnet restore DaxLib.Mcp.slnx --force-evaluate` on the branch and commit the lock files.
+  - package-ecosystem: "dotnet-sdk"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    ignore:
+      # The project targets .NET 10 (LTS); a new major SDK is a deliberate migration.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+    commit-message:
+      prefix: "build"
+      include: "scope"
+
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      nuget:
+        patterns: ["*"]
+    commit-message:
+      prefix: "build"
+      include: "scope"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
