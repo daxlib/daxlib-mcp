@@ -7,7 +7,7 @@ updates:
   - package-ecosystem: "dotnet-sdk"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     ignore:
       # The project targets .NET 10 (LTS); a new major SDK is a deliberate migration.
       - dependency-name: "*"
@@ -19,7 +19,7 @@ updates:
   - package-ecosystem: "nuget"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     groups:
       nuget:
         patterns: ["*"]
@@ -30,7 +30,7 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     commit-message:
       prefix: "ci"
       include: "scope"
