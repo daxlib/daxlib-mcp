@@ -24,8 +24,9 @@ Decide nothing the maintainer should decide, and stop before anything that leave
   vaguely.
 - **Touch only `version.json` and `CHANGELOG.md`.** The npm `package.json` files and everything
   under `npm/` belong to the release workflow.
-- **Stop at the commit.** Do not push, tag, create a release, or run the release workflow. Report
-  the released version, the changed files, the commit hash, and the publication steps that remain.
+- **Stop at the commit on the release branch.** Push the branch and open the pull request only when
+  the maintainer asks. Never merge, tag, create a release, or run the release workflow. Report the
+  released version, the branch, the changed files, the commit hash, and the steps that remain.
 
 Reading the diffs of many commits is the one part worth delegating to a subagent, and only when the
 range is large enough that the diffs would crowd out the conversation. The change list it returns
@@ -36,7 +37,8 @@ still gets reviewed here.
 - No commits since the last release: say so and change nothing.
 - Uncommitted changes in the working tree: stop. Do not stash, and do not commit work that belongs
   to someone else.
-- Not on `main`: stop. Releases only come from `main`.
+- Local `main` has commits that are not on `origin/main`: stop and ask. The release branch starts
+  from `origin/main`, so those commits would be left out of the release.
 - The last released version cannot be located in history: report what was found and ask which commit
   is the release base.
 
