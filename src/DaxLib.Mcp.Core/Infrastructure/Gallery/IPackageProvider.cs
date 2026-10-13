@@ -5,7 +5,7 @@ using DaxLib.Packaging;
 namespace DaxLib.Mcp.Core.Infrastructure.Gallery;
 
 /// <summary>
-/// Provides access to published <c>.daxpkg</c> packages from the DAXLib gallery.
+/// Provides access to published <c>.daxpkg</c> packages from the DAX Lib gallery.
 /// </summary>
 internal interface IPackageProvider
 {

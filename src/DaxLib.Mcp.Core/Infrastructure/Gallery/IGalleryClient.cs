@@ -7,12 +7,12 @@ using DaxLib.Packaging;
 namespace DaxLib.Mcp.Core.Infrastructure.Gallery;
 
 /// <summary>
-/// A client for the DAXLib gallery API.
+/// A client for the DAX Lib gallery API.
 /// </summary>
 internal interface IGalleryClient
 {
     /// <summary>
-    /// Searches the DAXLib gallery for packages matching the request, returning a page of results.
+    /// Searches the DAX Lib gallery for packages matching the request, returning a page of results.
     /// </summary>
     Task<IReadOnlyList<GalleryPackage>> SearchPackagesAsync(SearchRequest request, CancellationToken cancellationToken);
 
