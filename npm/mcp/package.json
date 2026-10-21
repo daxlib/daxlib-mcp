@@ -1,7 +1,7 @@
 {
   "name": "@daxlib/mcp",
   "version": "0.0.0-placeholder",
-  "description": "DAX Lib MCP Server: Node.js client package for installing and running the DAX Lib MCP server.",
+  "description": "DAX Lib MCP server: Node.js client package for installing and running the DAX Lib MCP server.",
   "license": "MIT",
   "main": "index.js",
   "bin": {

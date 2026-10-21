@@ -48,7 +48,7 @@ internal static class CliConsoleMessages
 
     private static IReadOnlyList<CliConsoleLine> UsageLines() =>
     [
-        new("DAX Lib MCP Server", ConsoleColor.Yellow),
+        new("DAX Lib MCP server", ConsoleColor.Yellow),
         new(string.Empty),
         new("Usage:", ConsoleColor.Cyan),
         new($"  {ServerName} [--start | --version | --help]"),
