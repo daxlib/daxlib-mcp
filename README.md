@@ -1,4 +1,4 @@
-# DAX Lib MCP Server
+# DAX Lib MCP server
 
 Local [MCP](https://modelcontextprotocol.io/) server for [DAX Lib](https://daxlib.org), the public
 gallery of reusable DAX user-defined function (UDF) packages.
