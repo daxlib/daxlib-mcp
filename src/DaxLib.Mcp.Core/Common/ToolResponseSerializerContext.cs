@@ -16,4 +16,6 @@ namespace DaxLib.Mcp.Core.Common;
 [JsonSerializable(typeof(ToolResponse<PackageSearchData[]>))]
 [JsonSerializable(typeof(ToolResponse<PackageDetailsData>))]
 [JsonSerializable(typeof(ToolResponse<PackageInstallData>))]
+[JsonSerializable(typeof(ToolResponse<FunctionDefinitionsData>))]
+[JsonSerializable(typeof(ToolResponse<FunctionDefinitionsErrorData>))]
 internal sealed partial class ToolResponseSerializerContext : JsonSerializerContext;

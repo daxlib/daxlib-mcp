@@ -16,8 +16,10 @@
     <NoWarn>$(NoWarn);CA2007</NoWarn>
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     <!-- The release publishes win-x64; declaring it here keeps the lock files consistent for
-         both the RID-less build and the RID-specific publish under RestoreLockedMode. -->
-    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+         both the RID-less build and the RID-specific publish under RestoreLockedMode.
+         linux-x64 and osx-arm64 are declared for the CI build try on those platforms; nothing
+         is published for them. -->
+    <RuntimeIdentifiers>win-x64;linux-x64;osx-arm64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">

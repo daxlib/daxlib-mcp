@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using DaxLib.Packaging;
 using Microsoft.AnalysisServices.Tabular;
 using AmoException = Microsoft.AnalysisServices.AmoException;
@@ -50,7 +52,10 @@ internal sealed class PackageInstaller : IPackageInstaller
 
             _ = model.SaveChanges();
 
-            return new PackageInstallOutcome.Installed(database.Name, sourceModel.Functions.Count);
+            return new PackageInstallOutcome.Installed(
+                database.Name,
+                sourceModel.Functions.Count,
+                FindDependenciesNotInstalled(model, package.Manifest));
         }
         catch (ConnectionException exception)
         {
@@ -68,6 +73,23 @@ internal sealed class PackageInstaller : IPackageInstaller
             }
             catch { /* Ignore exceptions during disposal. */ }
         }
+    }
+
+    /// <summary>
+    /// Returns the manifest dependencies whose package id owns no function of the model, by the
+    /// <c>DAXLIB_PackageId</c> annotation that every published function carries.
+    /// </summary>
+    internal static IReadOnlyList<PackageDependency> FindDependenciesNotInstalled(Model model, PackageManifest manifest)
+    {
+        var installed = model.Functions
+            .Select(function => function.Annotations.Find(PackageId.AnnotationName)?.Value)
+            .OfType<string>()
+            .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
+        return
+        [
+            .. manifest.Dependencies.Where(dependency => !installed.Contains(dependency.PackageId.ToNormalizedString())),
+        ];
     }
 
     /// <summary>

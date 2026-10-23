@@ -19,6 +19,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- The DAX built-in function names (INFO.FUNCTIONS), read by DaxBuiltInFunctions. -->
+    <EmbeddedResource Include="QueryDefinitions\DaxBuiltInFunctions.txt" LogicalName="DaxLib.Mcp.Core.QueryDefinitions.DaxBuiltInFunctions.txt" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- Every type in this assembly is internal; the console entry composes the server. -->
     <InternalsVisibleTo Include="daxlib-mcp" />
     <InternalsVisibleTo Include="DaxLib.Mcp.Core.Tests" />

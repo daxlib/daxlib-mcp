@@ -1,10 +1,12 @@
 ﻿using System.IO;
 using System.Reflection;
+using DaxLib.Packaging;
 
 namespace DaxLib.Mcp.Core.Tests.Fixtures;
 
 /// <summary>
-/// Loads the embedded TMDL fixtures: real <c>functions.tmdl</c> documents as published.
+/// Loads the embedded fixtures: real <c>functions.tmdl</c> documents and <c>.daxpkg</c> packages as
+/// published, and the expected results of the investigation (<c>Expected/</c>).
 /// </summary>
 internal static class FixtureLoader
 {
@@ -23,5 +25,20 @@ internal static class FixtureLoader
         using var reader = new StreamReader(stream);
 
         return reader.ReadToEnd();
+    }
+
+    /// <summary>
+    /// Opens a published package from <c>Fixtures/Daxpkg</c>, e.g. <c>OpenPackage("DaxLib.Sample", "0.1.8")</c>.
+    /// </summary>
+    public static Package OpenPackage(string packageId, string version)
+    {
+        using var stream = Open($"Daxpkg.{packageId}.{version}.daxpkg");
+
+        // Package.Open requires a seekable stream that it owns.
+        var buffer = new MemoryStream();
+        stream.CopyTo(buffer);
+        buffer.Position = 0;
+
+        return Package.Open(buffer);
     }
 }

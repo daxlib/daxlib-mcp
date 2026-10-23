@@ -1,0 +1,375 @@
+{
+ "DaxLib.SVG": {
+  "DaxLib.SVG.SVG": [],
+  "DaxLib.SVG.Transforms": [],
+  "DaxLib.SVG.Attr.Shapes": [],
+  "DaxLib.SVG.Attr.Stroke": [],
+  "DaxLib.SVG.Attr.Txt": [],
+  "DaxLib.SVG.Axes.Baseline": [
+   "DaxLib.SVG.Scale.Normalize"
+  ],
+  "DaxLib.SVG.Axes.Layout": [],
+  "DaxLib.SVG.Axes.MaxTickLabelWidth": [],
+  "DaxLib.SVG.Axes.Point": [
+   "DaxLib.SVG.Scale.Normalize"
+  ],
+  "DaxLib.SVG.Axes.Render": [
+   "DaxLib.SVG.Attr.Shapes",
+   "DaxLib.SVG.Attr.Txt",
+   "DaxLib.SVG.Element.Line",
+   "DaxLib.SVG.Element.Txt",
+   "DaxLib.SVG.Scale.Normalize"
+  ],
+  "DaxLib.SVG.Color.Hex.Interpolate": [
+   "DaxLib.SVG.Color.Hex.ToInt",
+   "DaxLib.SVG.Color.RGB.ToHex"
+  ],
+  "DaxLib.SVG.Color.Hex.ToInt": [],
+  "DaxLib.SVG.Color.Int.ToHex": [],
+  "DaxLib.SVG.Color.PerformanceTheme": [],
+  "DaxLib.SVG.Color.RGB.ToHex": [
+   "DaxLib.SVG.Color.Int.ToHex"
+  ],
+  "DaxLib.SVG.Color.Theme": [],
+  "DaxLib.SVG.Compound.Area": [
+   "DaxLib.SVG.Attr.Shapes",
+   "DaxLib.SVG.Axes.Baseline",
+   "DaxLib.SVG.Axes.Layout",
+   "DaxLib.SVG.Axes.MaxTickLabelWidth",
+   "DaxLib.SVG.Axes.Point",
+   "DaxLib.SVG.Axes.Render",
+   "DaxLib.SVG.Data.AxisMeasure",
+   "DaxLib.SVG.Data.Range",
+   "DaxLib.SVG.Element.Circle",
+   "DaxLib.SVG.Element.Polygon",
+   "DaxLib.SVG.Element.Polyline",
+   "DaxLib.SVG.Scale.NiceRange"
+  ],
+  "DaxLib.SVG.Compound.Bars": [
+   "DaxLib.SVG.Attr.Shapes",
+   "DaxLib.SVG.Axes.Baseline",
+   "DaxLib.SVG.Axes.Layout",
+   "DaxLib.SVG.Axes.MaxTickLabelWidth",
+   "DaxLib.SVG.Axes.Point",
+   "DaxLib.SVG.Axes.Render",
+   "DaxLib.SVG.Data.AxisMeasure",
+   "DaxLib.SVG.Data.Range",
+   "DaxLib.SVG.Element.Rect",
+   "DaxLib.SVG.Scale.NiceRange"
+  ],
+  "DaxLib.SVG.Compound.Boxplot": [
+   "DaxLib.SVG.Attr.Shapes",
+   "DaxLib.SVG.Element.Circle",
+   "DaxLib.SVG.Element.Line",
+   "DaxLib.SVG.Element.Rect",
+   "DaxLib.SVG.Scale.Normalize"
+  ],
+  "DaxLib.SVG.Compound.Heatmap": [
+   "DaxLib.SVG.Attr.Shapes",
+   "DaxLib.SVG.Color.Hex.Interpolate",
+   "DaxLib.SVG.Element.Rect",
+   "DaxLib.SVG.Scale.Normalize"
+  ],
+  "DaxLib.SVG.Compound.Jitter": [
+   "DaxLib.SVG.Attr.Shapes",
+   "DaxLib.SVG.Element.Circle",
+   "DaxLib.SVG.Scale.Normalize"
+  ],
+  "DaxLib.SVG.Compound.Line": [
+   "DaxLib.SVG.Attr.Shapes",
+   "DaxLib.SVG.Axes.Layout",
+   "DaxLib.SVG.Axes.MaxTickLabelWidth",
+   "DaxLib.SVG.Axes.Point",
+   "DaxLib.SVG.Axes.Render",
+   "DaxLib.SVG.Data.AxisMeasure",
+   "DaxLib.SVG.Data.Range",
+   "DaxLib.SVG.Element.Circle",
+   "DaxLib.SVG.Element.Polyline",
+   "DaxLib.SVG.Scale.NiceRange"
+  ],
+  "DaxLib.SVG.Compound.Pill": [
+   "DaxLib.SVG.Attr.Shapes",
+   "DaxLib.SVG.Attr.Txt",
+   "DaxLib.SVG.Element.Rect",
+   "DaxLib.SVG.Element.Txt"
+  ],
+  "DaxLib.SVG.Compound.ProgressBar": [
+   "DaxLib.SVG.Attr.Shapes",
+   "DaxLib.SVG.Element.Rect"
+  ],
+  "DaxLib.SVG.Compound.Violin": [
+   "DaxLib.SVG.Attr.Shapes",
+   "DaxLib.SVG.Element.Paths",
+   "DaxLib.SVG.Scale.Normalize"
+  ],
+  "DaxLib.SVG.Data.AxisMeasure": [],
+  "DaxLib.SVG.Data.Range": [],
+  "DaxLib.SVG.Def.Circle": [],
+  "DaxLib.SVG.Def.ClipPath": [],
+  "DaxLib.SVG.Def.GradientStop": [],
+  "DaxLib.SVG.Def.Line": [],
+  "DaxLib.SVG.Def.LinearGradient": [],
+  "DaxLib.SVG.Def.Paths": [],
+  "DaxLib.SVG.Def.RadialGradient": [],
+  "DaxLib.SVG.Def.Rect": [],
+  "DaxLib.SVG.Element.Circle": [],
+  "DaxLib.SVG.Element.Defs": [],
+  "DaxLib.SVG.Element.Ellipse": [],
+  "DaxLib.SVG.Element.Group": [],
+  "DaxLib.SVG.Element.Line": [],
+  "DaxLib.SVG.Element.Paths": [],
+  "DaxLib.SVG.Element.Polygon": [],
+  "DaxLib.SVG.Element.Polyline": [],
+  "DaxLib.SVG.Element.Rect": [],
+  "DaxLib.SVG.Element.Txt": [],
+  "DaxLib.SVG.Element.UseDef": [],
+  "DaxLib.SVG.Scale.NiceNum": [],
+  "DaxLib.SVG.Scale.NiceRange": [
+   "DaxLib.SVG.Scale.NiceNum"
+  ],
+  "DaxLib.SVG.Scale.Normalize": [],
+  "DaxLib.SVG.Viz.Area": [
+   "DaxLib.SVG.Compound.Area",
+   "DaxLib.SVG.SVG"
+  ],
+  "DaxLib.SVG.Viz.Bars": [
+   "DaxLib.SVG.Compound.Bars",
+   "DaxLib.SVG.SVG"
+  ],
+  "DaxLib.SVG.Viz.Boxplot": [
+   "DaxLib.SVG.Compound.Boxplot",
+   "DaxLib.SVG.SVG"
+  ],
+  "DaxLib.SVG.Viz.Heatmap": [
+   "DaxLib.SVG.Compound.Heatmap",
+   "DaxLib.SVG.SVG"
+  ],
+  "DaxLib.SVG.Viz.Jitter": [
+   "DaxLib.SVG.Compound.Jitter",
+   "DaxLib.SVG.SVG"
+  ],
+  "DaxLib.SVG.Viz.Line": [
+   "DaxLib.SVG.Compound.Line",
+   "DaxLib.SVG.SVG"
+  ],
+  "DaxLib.SVG.Viz.Pill": [
+   "DaxLib.SVG.Compound.Pill",
+   "DaxLib.SVG.SVG"
+  ],
+  "DaxLib.SVG.Viz.ProgressBar": [
+   "DaxLib.SVG.Compound.ProgressBar",
+   "DaxLib.SVG.SVG"
+  ],
+  "DaxLib.SVG.Viz.Violin": [
+   "DaxLib.SVG.Compound.Violin",
+   "DaxLib.SVG.SVG"
+  ]
+ },
+ "XU.Calendar": {
+  "XU.Calendar.About": [],
+  "XU.Calendar.Build": [],
+  "XU.Calendar.Build.Basic": [],
+  "XU.Calendar.Build.NoFiscal": []
+ },
+ "DaxLib.Filtering": {
+  "DaxLib.Filtering.FirstDateWithTransactions": [],
+  "DaxLib.Filtering.FirstValue": [
+   "DaxLib.Filtering.FirstDateWithTransactions"
+  ],
+  "DaxLib.Filtering.LastDateWithTransactions": [],
+  "DaxLib.Filtering.LastValue": [
+   "DaxLib.Filtering.LastDateWithTransactions"
+  ],
+  "DaxLib.Filtering.RangeLookup": []
+ },
+ "DaxLib.FormatString": {
+  "DaxLib.FormatString.RelativeToTarget.Percents": [
+   "DaxLib.FormatString.Component.DecimalPlaces",
+   "DaxLib.FormatString.Component.MakeStringSafe",
+   "DaxLib.FormatString.Component.Symbols"
+  ],
+  "DaxLib.FormatString.HHMMSS.Seconds": [
+   "DaxLib.FormatString.Component.MakeStringSafe"
+  ],
+  "DaxLib.FormatString.HHMMSS.StartTimeEndTime": [
+   "DaxLib.FormatString.Component.MakeStringSafe"
+  ],
+  "DaxLib.FormatString.DynamicUnits": [
+   "DaxLib.FormatString.Component.DynamicUnits",
+   "DaxLib.FormatString.Component.MakeStringSafe"
+  ],
+  "DaxLib.FormatString.Component.Symbols": [],
+  "DaxLib.FormatString.Component.DecimalPlaces": [],
+  "DaxLib.FormatString.Component.MakeStringSafe": [],
+  "DaxLib.FormatString.DynamicCurrency": [
+   "DaxLib.FormatString.Component.DecimalPlaces",
+   "DaxLib.FormatString.Component.GetCurrencyPosition",
+   "DaxLib.FormatString.Component.GetCurrencySymbol"
+  ],
+  "DaxLib.FormatString.Component.GetCurrencySymbol": [
+   "DaxLib.FormatString.Component.CurrencyTable"
+  ],
+  "DaxLib.FormatString.Component.GetCurrencyPosition": [
+   "DaxLib.FormatString.Component.CurrencyTable"
+  ],
+  "DaxLib.FormatString.Component.DynamicUnits": [],
+  "DaxLib.FormatString.RelativeToTarget.Numeric": [
+   "DaxLib.FormatString.Component.DecimalPlaces",
+   "DaxLib.FormatString.Component.MakeStringSafe",
+   "DaxLib.FormatString.Component.Symbols"
+  ],
+  "DaxLib.FormatString.Component.CurrencyTable": [],
+  "DaxLib.FormatString.Component.GetCurrencyFormat": [
+   "DaxLib.FormatString.Component.CurrencyTable"
+  ],
+  "DaxLib.FormatString.Component.GetCurrencyFormat.PNZ": [
+   "DaxLib.FormatString.Component.CurrencyTable"
+  ],
+  "DaxLib.FormatString.Basic.Dates": [],
+  "DaxLib.FormatString.Basic.Months": [],
+  "DaxLib.FormatString.Basic.DateTimes": [],
+  "DaxLib.FormatString.Basic.Quarters": [],
+  "DaxLib.FormatString.Basic.Numbers": [
+   "DaxLib.FormatString.Component.DecimalPlaces"
+  ],
+  "DaxLib.FormatString.Basic.Percents": [
+   "DaxLib.FormatString.Component.DecimalPlaces"
+  ],
+  "DaxLib.FormatString.Basic.SmarterRounding": [
+   "DaxLib.FormatString.Component.DynamicUnits"
+  ],
+  "DaxLib.FormatString.Basic.FileSize": [
+   "DaxLib.FormatString.Component.MakeStringSafe"
+  ],
+  "DaxLib.FormatString.Basic.Temperature": [
+   "DaxLib.FormatString.Component.DecimalPlaces"
+  ],
+  "DaxLib.FormatString.Basic.Ordinals": [],
+  "DaxLib.FormatString.Basic.Scientific": [
+   "DaxLib.FormatString.Component.MakeStringSafe"
+  ],
+  "DaxLib.FormatString.Component.Pluralization": [],
+  "DaxLib.FormatString.Basic.Fractions": [],
+  "DaxLib.FormatString.Basic.RomanNumerals": [
+   "DaxLib.FormatString.Component.MakeStringSafe"
+  ]
+ },
+ "DaxPatterns.AbcClassification": {
+  "DaxPatterns.AbcClassification.ComputeInAbcClass": [
+   "DaxPatterns.AbcClassification.ItemsInClass"
+  ],
+  "DaxPatterns.AbcClassification.ItemsInClass": []
+ },
+ "DaxLib.Sample": {
+  "DaxLib.Sample.MyFunc1": [],
+  "DaxLib.Sample.MyFunc2": [],
+  "DaxLib.Sample.MyFunc3": []
+ },
+ "DaxLib.Records": {
+  "DaxLib.Records.AddRecordValue": [
+   "DaxLib.Records.Internals.AssignmentSeparator",
+   "DaxLib.Records.Internals.ItemSeparator"
+  ],
+  "DaxLib.Records.GetRecordValue": [
+   "DaxLib.Records.GetRecordValueDefault"
+  ],
+  "DaxLib.Records.GetRecordValueDefault": [
+   "DaxLib.Records.Internals.AssignmentSeparator",
+   "DaxLib.Records.Internals.GetNormalizedString",
+   "DaxLib.Records.Internals.ItemSeparator"
+  ],
+  "DaxLib.Records.HasRecordValue": [
+   "DaxLib.Records.Internals.FindNamePosition"
+  ],
+  "DaxLib.Records.Internals.AssignmentSeparator": [],
+  "DaxLib.Records.Internals.FindNamePosition": [
+   "DaxLib.Records.Internals.AssignmentSeparator",
+   "DaxLib.Records.Internals.GetNormalizedString",
+   "DaxLib.Records.Internals.ItemSeparator"
+  ],
+  "DaxLib.Records.Internals.GetNormalizedString": [
+   "DaxLib.Records.Internals.AssignmentSeparator",
+   "DaxLib.Records.Internals.ItemSeparator"
+  ],
+  "DaxLib.Records.Internals.ItemSeparator": [],
+  "DaxLib.Records.NewRecordValue": [
+   "DaxLib.Records.AddRecordValue"
+  ],
+  "DaxLib.Records.NewRecordValue10": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue9"
+  ],
+  "DaxLib.Records.NewRecordValue11": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue10"
+  ],
+  "DaxLib.Records.NewRecordValue12": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue11"
+  ],
+  "DaxLib.Records.NewRecordValue13": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue12"
+  ],
+  "DaxLib.Records.NewRecordValue14": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue13"
+  ],
+  "DaxLib.Records.NewRecordValue15": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue14"
+  ],
+  "DaxLib.Records.NewRecordValue16": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue15"
+  ],
+  "DaxLib.Records.NewRecordValue17": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue16"
+  ],
+  "DaxLib.Records.NewRecordValue18": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue17"
+  ],
+  "DaxLib.Records.NewRecordValue19": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue18"
+  ],
+  "DaxLib.Records.NewRecordValue2": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue"
+  ],
+  "DaxLib.Records.NewRecordValue20": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue19"
+  ],
+  "DaxLib.Records.NewRecordValue3": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue2"
+  ],
+  "DaxLib.Records.NewRecordValue4": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue3"
+  ],
+  "DaxLib.Records.NewRecordValue5": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue4"
+  ],
+  "DaxLib.Records.NewRecordValue6": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue5"
+  ],
+  "DaxLib.Records.NewRecordValue7": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue6"
+  ],
+  "DaxLib.Records.NewRecordValue8": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue7"
+  ],
+  "DaxLib.Records.NewRecordValue9": [
+   "DaxLib.Records.AddRecordValue",
+   "DaxLib.Records.NewRecordValue8"
+  ]
+ }
+}

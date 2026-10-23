@@ -8,7 +8,14 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    # Windows is the published platform. Linux and macOS are a build try: the catalog tools and
+    # get_function_definitions need no Windows API, but a failure there does not fail the run yet.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    continue-on-error: ${{ matrix.os != 'windows-latest' }}
 
     steps:
       - name: Checkout

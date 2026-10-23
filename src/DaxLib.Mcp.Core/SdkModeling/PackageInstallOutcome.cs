@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using DaxLib.Packaging;
 
 namespace DaxLib.Mcp.Core.SdkModeling;
 
@@ -12,7 +14,14 @@ internal abstract record PackageInstallOutcome
     {
     }
 
-    public sealed record Installed(string DatabaseName, int FunctionCount) : PackageInstallOutcome;
+    /// <param name="DependenciesNotInstalled">
+    /// The manifest dependencies with no function in the model after the install: the package
+    /// does not install them, so the functions that call into them fail.
+    /// </param>
+    public sealed record Installed(
+        string DatabaseName,
+        int FunctionCount,
+        IReadOnlyList<PackageDependency> DependenciesNotInstalled) : PackageInstallOutcome;
     public sealed record CompatibilityTooLow(int ActualLevel, int MinimumLevel) : PackageInstallOutcome;
     public sealed record UnexpectedDatabaseCount(int DatabaseCount) : PackageInstallOutcome;
     public sealed record PackageDeserializationFailed(Exception Exception) : PackageInstallOutcome;

@@ -39,8 +39,14 @@ internal sealed record ToolOutcome
     public static ToolOutcome Ok(string message, RenderedResource resource) =>
         new(Serialize(new ToolResponse(Success: true, message)), message, isError: false, resource);
 
+    public static ToolOutcome Ok<TData>(string message, TData data, RenderedResource resource) =>
+        new(Serialize(new ToolResponse<TData>(Success: true, message, data)), message, isError: false, resource);
+
     public static ToolOutcome Failed(string message) =>
         new(Serialize(new ToolResponse(Success: false, message)), message, isError: true, resource: null);
+
+    public static ToolOutcome Failed<TData>(string message, TData data) =>
+        new(Serialize(new ToolResponse<TData>(Success: false, message, data)), message, isError: true, resource: null);
 
     private static string Serialize<TResponse>(TResponse response) =>
         JsonSerializer.Serialize(response, typeof(TResponse), ToolResponseSerializerContext.Default);

@@ -1,0 +1,21 @@
+DEFINE
+    // MyFunc1 description
+    FUNCTION DaxLib.Sample.MyFunc1 =
+        () => 1
+    // MyFunc2 description
+    FUNCTION DaxLib.Sample.MyFunc2 =
+        (
+            // Argument description
+            param1: DOUBLE
+        ) =>
+            param1
+    // MyFunc3 description
+    FUNCTION DaxLib.Sample.MyFunc3 =
+        (
+            // Parameter description
+            param1: INT64,
+            // Parameter description
+            param2: INT64
+        ) =>
+            param1 + param2
+EVALUATE { ( DaxLib.Sample.MyFunc1 (), DaxLib.Sample.MyFunc2 ( 2.5 ), DaxLib.Sample.MyFunc3 ( 1, 2 ) ) }
