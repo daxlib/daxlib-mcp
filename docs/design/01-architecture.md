@@ -21,7 +21,8 @@ daxlib-mcp
 ```
 
 Two projects: `src/DaxLib.Mcp` is the console host, `src/DaxLib.Mcp.Core` contains everything
-else. Tests live in `tests/DaxLib.Mcp.Core.Tests`.
+else. `src/Dax.Tokenizer` is a third-party DAX lexer, vendored unchanged until it ships as a NuGet
+package. Tests live in `tests/DaxLib.Mcp.Core.Tests`.
 
 ## Request flows
 
@@ -48,7 +49,8 @@ manifest whose package id owns no function of the model (`DAXLIB_PackageId` anno
 
 1. Resolve id + optional version (`PackageResolver`), download the package (`PackageProvider`).
 2. Read its TMDL into a `FunctionCatalog`: expression, description, parameters and calls of each
-   function. Calls are found with `DaxTokenizer`, so names inside strings and comments are not
+   function. Calls are found with the DAX lexer of `Dax.Tokenizer` (`src/Dax.Tokenizer`, a
+   vendored copy of the Vpax-Obfuscator tokenizer), so names inside strings and comments are not
    calls.
 3. Check the requested function names (`unknownFunction` with close names).
 4. Build the call closure (`DependencyResolver`): callees in the same package, and in the declared

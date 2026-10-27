@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
+using Dax.Tokenizer;
 using DaxLib.Mcp.Core.SdkModeling;
 using DaxLib.Packaging;
 
@@ -113,7 +114,7 @@ internal sealed class FunctionCatalog
             normalizedExpression,
             normalizedDescription,
             ParseParameters(normalizedExpression),
-            DaxTokenizer.FindCallNames(normalizedExpression));
+            DaxSyntax.FindCallNames(normalizedExpression));
     }
 
     /// <summary>
@@ -122,35 +123,35 @@ internal sealed class FunctionCatalog
     /// </summary>
     internal static IReadOnlyList<FunctionParameter> ParseParameters(string expression)
     {
-        var tokens = DaxTokenizer.Tokenize(expression);
+        DaxToken[] tokens = [.. DaxSyntax.Tokenize(expression).Where(token => !DaxSyntax.IsWhiteSpace(token))];
         var index = 0;
 
-        while (index < tokens.Count && tokens[index].Kind is DaxTokenKind.Comment)
+        while (index < tokens.Length && DaxSyntax.IsComment(tokens[index]))
             index++;
 
-        if (index >= tokens.Count || tokens[index] is not { Kind: DaxTokenKind.Operator, Text: "(" })
+        if (index >= tokens.Length || tokens[index].Type != DaxToken.OPEN_PARENS)
             return [];
 
         List<FunctionParameter> parameters = [];
         List<DaxToken> segment = [];
         var depth = 0;
 
-        for (index++; index < tokens.Count; index++)
+        for (index++; index < tokens.Length; index++)
         {
             var token = tokens[index];
 
-            if (token is { Kind: DaxTokenKind.Operator, Text: "(" })
+            if (token.Type == DaxToken.OPEN_PARENS)
             {
                 depth++;
             }
-            else if (token is { Kind: DaxTokenKind.Operator, Text: ")" })
+            else if (token.Type == DaxToken.CLOSE_PARENS)
             {
                 if (depth == 0)
                     break;
 
                 depth--;
             }
-            else if (depth == 0 && token is { Kind: DaxTokenKind.Operator, Text: "," })
+            else if (depth == 0 && token.Type == DaxToken.COMMA)
             {
                 AddParameter(parameters, segment);
                 segment.Clear();
@@ -167,9 +168,9 @@ internal sealed class FunctionCatalog
 
     private static void AddParameter(List<FunctionParameter> parameters, List<DaxToken> segment)
     {
-        var nameIndex = segment.FindIndex(token => token.Kind is not DaxTokenKind.Comment);
+        var nameIndex = segment.FindIndex(token => !DaxSyntax.IsComment(token));
 
-        if (nameIndex < 0 || segment[nameIndex].Kind is not DaxTokenKind.Identifier)
+        if (nameIndex < 0 || !DaxSyntax.IsName(segment[nameIndex]))
             return;
 
         string[] comments = [.. segment.Take(nameIndex).Select(token => CommentText(token.Text)).Where(text => text.Length > 0)];
@@ -177,16 +178,16 @@ internal sealed class FunctionCatalog
         var optional = false;
         var index = nameIndex + 1;
 
-        if (index < segment.Count && segment[index] is { Kind: DaxTokenKind.Operator, Text: ":" })
+        if (index < segment.Count && segment[index].Type == DaxToken.COLON)
         {
             for (index++; index < segment.Count; index++)
             {
                 var token = segment[index];
 
-                if (token.Kind is DaxTokenKind.Comment)
+                if (DaxSyntax.IsComment(token))
                     continue;
 
-                if (token is { Kind: DaxTokenKind.Operator, Text: "=" })
+                if (token.Type == DaxToken.EQ)
                     break;
 
                 typeParts.Add(token.Text);
@@ -195,7 +196,7 @@ internal sealed class FunctionCatalog
 
         for (; index < segment.Count; index++)
         {
-            if (segment[index] is { Kind: DaxTokenKind.Operator, Text: "=" })
+            if (segment[index].Type == DaxToken.EQ)
             {
                 optional = true;
                 break;
@@ -206,7 +207,7 @@ internal sealed class FunctionCatalog
             segment[nameIndex].Text,
             string.Join(' ', typeParts),
             optional,
-            comments.Length == 0 ? null : string.Join('\n', comments)));
+            comments.Length == 0 ? null : string.Join("\n", comments)));
     }
 
     private static string CommentText(string comment)

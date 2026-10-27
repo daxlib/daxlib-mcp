@@ -19,6 +19,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- The DAX lexer used by QueryDefinitions/. A vendored copy until the NuGet package with the
+         same namespace is published: see src/Dax.Tokenizer/README.md. -->
+    <ProjectReference Include="..\Dax.Tokenizer\Dax.Tokenizer.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <!-- The DAX built-in function names (INFO.FUNCTIONS), read by DaxBuiltInFunctions. -->
     <EmbeddedResource Include="QueryDefinitions\DaxBuiltInFunctions.txt" LogicalName="DaxLib.Mcp.Core.QueryDefinitions.DaxBuiltInFunctions.txt" />
   </ItemGroup>

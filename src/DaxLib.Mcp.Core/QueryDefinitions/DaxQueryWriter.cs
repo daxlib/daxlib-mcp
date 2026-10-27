@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
@@ -46,16 +47,16 @@ internal static class DaxQueryWriter
     /// </summary>
     private static void AppendExpression(StringBuilder builder, string expression)
     {
-        var literals = DaxTokenizer.Tokenize(expression)
-            .Where(token => token.Kind is DaxTokenKind.String or DaxTokenKind.QuotedName or DaxTokenKind.BracketName
-                && token.Text.Contains('\n', System.StringComparison.Ordinal))
+        var literals = DaxSyntax.Tokenize(expression)
+            .Where(token => DaxSyntax.IsLiteral(token)
+                && expression.AsSpan(token.StartIndex, token.StopIndex - token.StartIndex + 1).Contains('\n'))
             .ToArray();
 
         var lineStart = 0;
 
         foreach (var line in expression.Split('\n'))
         {
-            var insideLiteral = literals.Any(token => token.Start < lineStart && lineStart < token.Start + token.Text.Length);
+            var insideLiteral = literals.Any(token => token.StartIndex < lineStart && lineStart <= token.StopIndex);
 
             if (line.Length == 0 || insideLiteral)
                 AppendLine(builder, line);

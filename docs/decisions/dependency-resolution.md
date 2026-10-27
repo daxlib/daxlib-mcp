@@ -7,9 +7,11 @@ code.
 
 ## Call closure
 
-- Calls are found with a tokenizer (`QueryDefinitions/DaxTokenizer.cs`), not a regex. A call is an
-  identifier, dots included, directly followed by `(`. Names inside strings and comments are not
-  calls. On all 64 published packages (577 functions) a regex found 316 calls between functions of
+- Calls are found with a DAX lexer, not a regex: the `Dax.Tokenizer` of
+  [sql-bi/Vpax-Obfuscator](https://github.com/sql-bi/Vpax-Obfuscator), vendored in
+  `src/Dax.Tokenizer` until its NuGet package is published. A call is an identifier, dots
+  included, directly followed by `(`; a reserved word followed by `(` is not. Names inside
+  strings and comments are not calls. On all 64 published packages (577 functions) a regex found 316 calls between functions of
   the same package and the tokenizer 300; the 16 extra regex calls were names inside strings or
   comments.
 - A call is classified in this order: DAX built-in function (ignored; list from `INFO.FUNCTIONS`);

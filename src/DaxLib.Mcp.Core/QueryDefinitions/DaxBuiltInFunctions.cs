@@ -6,7 +6,7 @@ namespace DaxLib.Mcp.Core.QueryDefinitions;
 
 /// <summary>
 /// The names of the DAX built-in functions, so that call detection can tell them from package
-/// functions. The list includes the dotted names, such as <c>NORM.S.DIST</c>, that the tokenizer
+/// functions. The list includes the dotted names, such as <c>NORM.S.DIST</c>, that the lexer
 /// reads as one identifier.
 /// </summary>
 /// <remarks>
