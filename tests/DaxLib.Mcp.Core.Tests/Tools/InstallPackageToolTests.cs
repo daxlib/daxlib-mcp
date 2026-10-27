@@ -60,7 +60,7 @@ public sealed class InstallPackageToolTests
     public async Task Install_NamedDataSource_InstallsAndReportsWhatWasWritten()
     {
         _installer.Install(Arg.Any<Package>(), Arg.Any<ConnectionInfo>())
-            .Returns(new PackageInstallOutcome.Installed("Sales", 4));
+            .Returns(new PackageInstallOutcome.Installed("Sales", 4, []));
 
         var result = await CreateTool().InstallPackageAsync(
             "DaxLib.SVG", DataSource, cancellationToken: TestContext.Current.CancellationToken);

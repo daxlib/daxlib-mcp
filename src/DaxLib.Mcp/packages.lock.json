@@ -57,6 +57,11 @@
         "resolved": "3.7.115",
         "contentHash": "EpXamaAdRfG/BMxGgvZlTM0npRnkmXUjAj8OdNKd17t4oN+2nvjdv/KnFmzOOMDqvlwB49UCwtOHJrAQTfUBtQ=="
       },
+      "Antlr4.Runtime.Standard": {
+        "type": "Transitive",
+        "resolved": "4.13.1",
+        "contentHash": "Da5+i4kFHUseJRZGcBG5fmZGpA/Ns180ibrQMxgZzjpQOnENVvSL5gi5HZ8Ncz8/AR2WsKbOg2lMBzjz0HUQcA=="
+      },
       "DaxLib.Client": {
         "type": "Transitive",
         "resolved": "0.6.3-beta",
@@ -395,14 +400,45 @@
         "resolved": "10.0.0",
         "contentHash": "b9T8htKhiQ1ufCLhLQdb5NPGvhUSnT2/5GXMbaB7xk1dxMB17dGVMA4D6hpavyeSW97blOfYfTaAcSz4o2mQBA=="
       },
+      "dax.tokenizer": {
+        "type": "Project",
+        "dependencies": {
+          "Antlr4.Runtime.Standard": "[4.13.1, )"
+        }
+      },
       "daxlib.mcp.core": {
         "type": "Project",
         "dependencies": {
+          "Dax.Tokenizer": "[1.0.0, )",
           "DaxLib.Client": "[0.6.3-beta, )",
           "DaxLib.Packaging": "[0.7.1-beta, )",
           "Microsoft.AnalysisServices": "[19.114.12, )",
           "ModelContextProtocol": "[2.2.0, )"
         }
+      }
+    },
+    "net10.0/linux-x64": {
+      "Microsoft.Identity.Client.NativeInterop": {
+        "type": "Transitive",
+        "resolved": "0.20.4",
+        "contentHash": "JHlfJ8oolxj20sNlwdIh8H8MZtzVQ55MyOjrIrQCtD/KJL5x8EOjQxafYu8AEYZOCSW+09DQnRogGk+J37BURA=="
+      },
+      "System.Diagnostics.EventLog": {
+        "type": "Transitive",
+        "resolved": "10.0.11",
+        "contentHash": "QTXEoQBzz00SFWbo7nAg1Ogd4f99lwqcO9uAJ7MYSLEUR28f6As32QktrqG2Fr9cfAfd1GjLyGYspE7Ipj7P6w=="
+      }
+    },
+    "net10.0/osx-arm64": {
+      "Microsoft.Identity.Client.NativeInterop": {
+        "type": "Transitive",
+        "resolved": "0.20.4",
+        "contentHash": "JHlfJ8oolxj20sNlwdIh8H8MZtzVQ55MyOjrIrQCtD/KJL5x8EOjQxafYu8AEYZOCSW+09DQnRogGk+J37BURA=="
+      },
+      "System.Diagnostics.EventLog": {
+        "type": "Transitive",
+        "resolved": "10.0.11",
+        "contentHash": "QTXEoQBzz00SFWbo7nAg1Ogd4f99lwqcO9uAJ7MYSLEUR28f6As32QktrqG2Fr9cfAfd1GjLyGYspE7Ipj7P6w=="
       }
     },
     "net10.0/win-x64": {

@@ -2,6 +2,20 @@
 
 Changes to the DAX Lib MCP server, newest release first.
 
+## [0.2.0] - 2026-10-24
+
+### Features
+
+- `get_function_definitions` returns a DAX query DEFINE block with the selected functions of a
+  package and the functions they call, so they can be used in a query without changing the model
+- `get_function_definitions` also adds the functions called in the packages a package depends on,
+  at the exact versions it declares, and reports any function it cannot add
+- `install_package` warns when the installed package depends on a package that is not in the model
+
+### Other
+
+- `get_package` now points to `get_function_definitions` for the DAX code of a package
+
 ## [0.1.0] - 2026-10-12
 
 ### Other

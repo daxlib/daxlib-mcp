@@ -4,6 +4,7 @@ using DaxLib.Mcp.Core.Common;
 using DaxLib.Mcp.Core.Infrastructure.Gallery;
 using DaxLib.Mcp.Core.Infrastructure.AnalysisServices;
 using DaxLib.Mcp.Core.PackageLookup;
+using DaxLib.Mcp.Core.QueryDefinitions;
 using DaxLib.Mcp.Core.SdkModeling;
 using DaxLib.Mcp.Core.Tools;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,6 +22,7 @@ internal static class ServiceCollectionExtensions
         services.AddDaxLibGallery();
         services.AddAnalysisServicesDiscovery();
         services.AddSingleton<PackageResolver>();
+        services.AddSingleton<DependencyResolver>();
         services.AddSingleton<IPackageInstaller, PackageInstaller>();
         services.AddSingleton<ToolCallInvocation>();
 
@@ -40,6 +42,7 @@ internal static class ServiceCollectionExtensions
             .WithTools<SearchPackagesTool>()
             .WithTools<GetPackageTool>()
             .WithTools<GetPackageReadmeTool>()
+            .WithTools<GetFunctionDefinitionsTool>()
             .WithTools<ListLocalInstancesTool>()
             .WithTools<InstallPackageTool>();
     }

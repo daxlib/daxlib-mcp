@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- Vendored copy of the DAX tokenizer from sql-bi/Vpax-Obfuscator (src/Dax.Tokenizer). The
+       source files are unchanged, so that the project can be replaced by the NuGet package with
+       the same namespace: see README.md. The settings below restore the upstream build settings
+       where they differ from src/Directory.Build.props. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>12.0</LangVersion>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <!-- Third-party code, kept as published: the analyzers of this repository do not apply. -->
+    <RunAnalyzers>false</RunAnalyzers>
+    <NoWarn>$(NoWarn);CA1852</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Antlr4.Runtime.Standard" Version="4.13.1" />
+  </ItemGroup>
+
+</Project>

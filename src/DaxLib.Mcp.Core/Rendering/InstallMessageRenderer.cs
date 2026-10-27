@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using DaxLib.Mcp.Core.Common;
 using DaxLib.Mcp.Core.SdkModeling;
 
@@ -24,10 +25,36 @@ internal static class InstallMessageRenderer
         };
 
     private static ToolOutcome Success(
-       string packageId, string packageVersion, string dataSource, PackageInstallOutcome.Installed installed) =>
-       ToolOutcome.Ok(
-           $"Installed package {packageId} version {packageVersion} into database '{installed.DatabaseName}' on dataSource {dataSource}: {installed.FunctionCount} functions added or replaced.",
-           new PackageInstallData(installed.DatabaseName, installed.FunctionCount));
+        string packageId, string packageVersion, string dataSource, PackageInstallOutcome.Installed installed)
+    {
+        var message =
+            $"Installed package {packageId} version {packageVersion} into database '{installed.DatabaseName}' on dataSource {dataSource}: {installed.FunctionCount} functions added or replaced.";
+
+        if (installed.DependenciesNotInstalled.Count == 0)
+            return ToolOutcome.Ok(message, new PackageInstallData(installed.DatabaseName, installed.FunctionCount));
+
+        PackageInstallWarningData[] warnings =
+        [
+            .. installed.DependenciesNotInstalled.Select(dependency =>
+            {
+                var id = dependency.PackageId.ToNormalizedString();
+                var version = dependency.Version.ToNormalizedString();
+
+                return new PackageInstallWarningData(
+                    "dependencyNotInstalled",
+                    id,
+                    $"The package depends on {id} {version}, which has no function in the model. " +
+                    $"The functions that call into it fail until {id} {version} is installed with `{ToolNames.InstallPackage}`.");
+            }),
+        ];
+
+        var dependencies = string.Join(", ", installed.DependenciesNotInstalled.Select(
+            dependency => $"{dependency.PackageId.ToNormalizedString()} {dependency.Version.ToNormalizedString()}"));
+
+        return ToolOutcome.Ok(
+            $"{message} Warning: the package depends on {dependencies}, not installed in the model. Ask the user whether to install it.",
+            new PackageInstallData(installed.DatabaseName, installed.FunctionCount, warnings));
+    }
 
     public static ToolOutcome UnknownTarget() =>
         ToolOutcome.Failed(

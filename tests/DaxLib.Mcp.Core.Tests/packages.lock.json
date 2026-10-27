@@ -40,6 +40,11 @@
           "xunit.v3.mtp-v2": "[4.0.0]"
         }
       },
+      "Antlr4.Runtime.Standard": {
+        "type": "Transitive",
+        "resolved": "4.13.1",
+        "contentHash": "Da5+i4kFHUseJRZGcBG5fmZGpA/Ns180ibrQMxgZzjpQOnENVvSL5gi5HZ8Ncz8/AR2WsKbOg2lMBzjz0HUQcA=="
+      },
       "Castle.Core": {
         "type": "Transitive",
         "resolved": "5.1.1",
@@ -330,9 +335,16 @@
           "xunit.v3.runner.common": "[4.0.0]"
         }
       },
+      "dax.tokenizer": {
+        "type": "Project",
+        "dependencies": {
+          "Antlr4.Runtime.Standard": "[4.13.1, )"
+        }
+      },
       "daxlib.mcp.core": {
         "type": "Project",
         "dependencies": {
+          "Dax.Tokenizer": "[1.0.0, )",
           "DaxLib.Client": "[0.6.3-beta, )",
           "DaxLib.Packaging": "[0.7.1-beta, )",
           "Microsoft.AnalysisServices": "[19.114.12, )",

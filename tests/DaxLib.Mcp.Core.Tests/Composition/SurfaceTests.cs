@@ -26,7 +26,7 @@ public sealed class SurfaceTests
         var tools = await harness.Client.ListToolsAsync(cancellationToken: cancellationToken);
 
         Assert.Equal(
-            ["get_package", "get_package_readme", "install_package", "list_local_instances", "search_packages"],
+            ["get_function_definitions", "get_package", "get_package_readme", "install_package", "list_local_instances", "search_packages"],
             [.. tools.Select(tool => tool.Name).Order(StringComparer.Ordinal)]);
     }
 
@@ -47,6 +47,9 @@ public sealed class SurfaceTests
         AssertSchema(tools.Single(tool => tool.Name == "get_package_readme"),
             expectedProperties: ["id", "version"],
             expectedRequired: ["id"]);
+        AssertSchema(tools.Single(tool => tool.Name == "get_function_definitions"),
+            expectedProperties: ["id", "version", "functions", "includeDependencies", "includeDescriptions"],
+            expectedRequired: ["id"]);
         AssertSchema(tools.Single(tool => tool.Name == "install_package"),
             expectedProperties: ["id", "version", "dataSource"],
             expectedRequired: ["id", "dataSource"]);
@@ -65,5 +68,23 @@ public sealed class SurfaceTests
             Assert.Equal(expectedProperties.Order(StringComparer.Ordinal), properties.Order(StringComparer.Ordinal));
             Assert.Equal(expectedRequired.Order(StringComparer.Ordinal), required.Order(StringComparer.Ordinal));
         }
+    }
+
+    [Fact]
+    public async Task ListTools_GetFunctionDefinitions_PublishesTheModeEnumAndReadOnlyAnnotations()
+    {
+        var cancellationToken = TestContext.Current.CancellationToken;
+        await using var harness = await McpServerHarness.StartAsync(cancellationToken);
+
+        var tools = await harness.Client.ListToolsAsync(cancellationToken: cancellationToken);
+        var tool = tools.Single(tool => tool.Name == "get_function_definitions");
+        var mode = tool.JsonSchema.GetProperty("properties").GetProperty("includeDependencies");
+
+        Assert.Equal(["none", "package", "all"], mode.GetProperty("enum").EnumerateArray().Select(value => value.GetString()));
+        Assert.Equal("all", mode.GetProperty("default").GetString());
+        Assert.Equal(true, tool.ProtocolTool.Annotations?.ReadOnlyHint);
+        Assert.Equal(false, tool.ProtocolTool.Annotations?.DestructiveHint);
+        Assert.Equal(true, tool.ProtocolTool.Annotations?.IdempotentHint);
+        Assert.Equal(true, tool.ProtocolTool.Annotations?.OpenWorldHint);
     }
 }

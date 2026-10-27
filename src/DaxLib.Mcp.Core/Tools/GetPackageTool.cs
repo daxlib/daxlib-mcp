@@ -25,7 +25,7 @@ internal sealed class GetPackageTool(PackageResolver packageResolver, ToolCallIn
         $"""
         Get details for a DAX Lib package.
         Returns its id, version, description, authors, owners, tags, publication date, version-specific download count, README availability, gallery, project and repository links, release notes, and the full list of published versions (newest first).
-        Does not return DAX code.
+        Does not return DAX code: call `{ToolNames.GetFunctionDefinitions}` to get the functions as a DEFINE block for a DAX query.
         """)]
     public Task<CallToolResult> GetPackageAsync(
         [Description("Exact package id, e.g. 'DaxLib.SVG'. Case-insensitive.")]

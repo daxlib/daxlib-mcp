@@ -16,6 +16,9 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Fixtures\**\*.tmdl" />
+    <EmbeddedResource Include="Fixtures\**\*.daxpkg" />
+    <EmbeddedResource Include="Fixtures\**\*.json" />
+    <EmbeddedResource Include="Fixtures\**\*.dax" />
   </ItemGroup>
 
 </Project>

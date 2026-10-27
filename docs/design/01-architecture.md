@@ -6,8 +6,8 @@ the request flows and records the invariants a change must preserve.
 ## System overview
 
 `daxlib-mcp` is a local, stdio-based MCP server. It exposes the [DAX Lib](https://daxlib.org)
-catalog and installs a package's user-defined DAX functions into a semantic model open in Power BI
-Desktop.
+catalog, returns a package's user-defined DAX functions as the DEFINE block of a DAX query, and
+installs them into a semantic model open in Power BI Desktop.
 
 ```text
 MCP client
@@ -16,11 +16,13 @@ MCP client
 daxlib-mcp
    ├─ DAX Lib client ── search, metadata, README and package download
    ├─ TOM/TMDL parser ── package documents to an in-memory model
+   ├─ Query definitions ── call closure and DEFINE block, no model connection
    └─ Power BI discovery + TOM ── select the requested instance and save functions
 ```
 
 Two projects: `src/DaxLib.Mcp` is the console host, `src/DaxLib.Mcp.Core` contains everything
-else. Tests live in `tests/DaxLib.Mcp.Core.Tests`.
+else. `src/Dax.Tokenizer` is a third-party DAX lexer, vendored unchanged until it ships as a NuGet
+package. Tests live in `tests/DaxLib.Mcp.Core.Tests`.
 
 ## Request flows
 
@@ -39,6 +41,25 @@ inside the implementation; the wire result is concise natural language.
 5. Connect to the instance (`PackageInstaller`), verify exactly one loaded database at
    compatibility level 1702 or later, clone each function into the target model replacing
    same-name functions, and save with one `Model.SaveChanges()` call.
+
+After the save, the result warns (`dependencyNotInstalled`) about each dependency in the package
+manifest whose package id owns no function of the model (`DAXLIB_PackageId` annotation).
+
+`get_function_definitions` executes these steps, and never connects to a model:
+
+1. Resolve id + optional version (`PackageResolver`), download the package (`PackageProvider`).
+2. Read its TMDL into a `FunctionCatalog`: expression, description, parameters and calls of each
+   function. Calls are found with the DAX lexer of `Dax.Tokenizer` (`src/Dax.Tokenizer`, a
+   vendored copy of the Vpax-Obfuscator tokenizer), so names inside strings and comments are not
+   calls.
+3. Check the requested function names (`unknownFunction` with close names).
+4. Build the call closure (`DependencyResolver`): callees in the same package, and in the declared
+   dependency packages at the exact declared versions. Dependencies are downloaded only when a call
+   goes into them. Problems become warnings, recursion is an error.
+5. Write the DEFINE block (`DaxQueryWriter`) and return it as an embedded resource
+   (`daxlib-define://<id>/<version>/define.dax`) next to the JSON envelope.
+
+The rules are recorded in [../decisions/dependency-resolution.md](../decisions/dependency-resolution.md).
 
 The connection is built from the discovered instance, never from the caller-supplied `dataSource`
 string.
@@ -64,21 +85,28 @@ A change must preserve these properties:
   installation stay inside the server process, so functions are installed with full fidelity
   (formatting and comments preserved).
 - **Compatibility level 1702 is verified before any modification.**
+- **`get_function_definitions` never connects to a model** and has no compatibility-level check:
+  query-scoped functions depend on the engine.
+- **Library code is never renamed.** The DEFINE block differs from the TMDL only in the syntax the
+  query needs (no quotes around the name, no fences, no annotations).
+- **Dependencies use exact versions only**, the versions the manifests declare.
 - **The user chooses.** The server instructions (`McpServerInfo.Instructions`) direct the client
   to let the user pick the package and the target instance, never automatically.
 - **Installation from NPM is complete at `npm install`.** No `postinstall` scripts, no runtime
   downloads.
 
-The write tool is marked destructive and idempotent in its MCP metadata; the catalog tools are
-read-only. The server does not confirm the write itself: approval belongs to the client's
+The write tool is marked destructive and idempotent in its MCP metadata; the catalog tools and
+`get_function_definitions` are read-only. The server does not confirm the write itself: approval belongs to the client's
 permission flow, for the reasons recorded in
 [../decisions/mcp-elicitation.md](../decisions/mcp-elicitation.md).
 
 ## Platform and distribution
 
 The published runtime identifier is `win-x64`. Power BI Desktop and the Windows APIs used by
-discovery make the discovery and installation path Windows-only; the catalog tools only require
-network access to DAX Lib.
+discovery make the discovery and installation path Windows-only; the catalog tools and
+`get_function_definitions` only require network access to DAX Lib. CI also builds and tests on
+Linux and macOS (`linux-x64` and `osx-arm64` are declared runtime identifiers) as a try that does
+not fail the run; nothing is published for those platforms.
 
 NPM is the distribution channel:
 
