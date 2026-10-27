@@ -96,7 +96,8 @@ jobs:
             -td sha256 -fd sha256 -v `
             "src/artifacts/publish/DaxLib.Mcp/release_win-x64/daxlib-mcp.exe"
 
-      # The root CHANGELOG.md is the single source; it is copied into both packages.
+      # The root CHANGELOG.md is the single source; it is copied into both packages. The
+      # third-party notices go with the executable they describe.
       - name: Stage npm packages
         shell: pwsh
         run: |
@@ -105,6 +106,7 @@ jobs:
           Copy-Item src/artifacts/publish/DaxLib.Mcp/release_win-x64/daxlib-mcp.exe npm/mcp-win32-x64/dist/
           Copy-Item CHANGELOG.md npm/mcp/
           Copy-Item CHANGELOG.md npm/mcp-win32-x64/
+          Copy-Item THIRD-PARTY-NOTICES.md npm/mcp-win32-x64/
           npm version $version --no-git-tag-version --prefix npm/mcp-win32-x64
           npm version $version --no-git-tag-version --prefix npm/mcp
           npm pkg set "optionalDependencies.@daxlib/mcp-win32-x64=$version" --prefix npm/mcp
