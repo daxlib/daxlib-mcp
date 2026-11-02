@@ -2,7 +2,7 @@
 
 Changes to the DAX Lib MCP server, newest release first.
 
-## [0.2.0] - 2026-10-24
+## [0.2.0] - 2026-11-01
 
 ### Features
 
